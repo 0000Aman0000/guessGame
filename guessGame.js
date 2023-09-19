@@ -5,10 +5,10 @@ const prompt = require('prompt-sync')();
     const limit =  getNumber('Enter the Range: ')//setting limit to the guess
     console.log(`Limit that you set is ${limit}`)
     const guessAvailable = possibleGuess(limit);
-    // console.log(` Guess Left ${guessLeft}`);
+    console.log(`You've ${guessAvailable} Chances to Guess the Number`);
     const validTarget = secretNumber(limit);
-    // console.log(`Valid Target ${validTarget}`);
-    const guess = getNumber();
+    console.log(`Valid Target ${validTarget}`);
+    const guess = getNumber('Enter Your Guess: ');
     const output = checkGuess(validTarget,guess,guessAvailable-1);
    console.log(output);
 }
@@ -26,8 +26,7 @@ function possibleGuess(limit){
         i+=1;
         dummyLimit=2**i;
         }
-    // i+=1;
-    return i+1;
+    return i+2;
 }
 //3. getTarget() to get the valid target
 function secretNumber(limit){
@@ -40,27 +39,27 @@ function secretNumber(limit){
 // }
 //5. checkGuess() to check if the user win the game or lose!
 function checkGuess(secret,guess,guessAvailable)
-{
-        let res = "Sorry You Loose";;
+{       
+        let res = "Sorry You Loose";
         let flag= false;
-
         if(guess ===secret && guessAvailable>=0){
             res = "Rock On";
             flag = true;
+            return  res;
         }
         else if(flag ===false) {
             if (guess >secret)
-                    console.log(`Number is smaller than ${guess}`);
+                    console.log(`Number is Smaller than ${guess}, You've ${guessAvailable} Chances Left.`);
             else console.log(`Number is greater than ${guess}`)
             
             if(guessAvailable<=0){
                 // readline.close();
             
-                return res;
+                return res="Sorry You Loose";
             }
             else{
                 guess = getNumber('Enter Your Guess: ');
-                checkGuess(secret,guess,guessAvailable-1);
+                res =checkGuess(secret,guess,guessAvailable-1);
             }
         }
         return res;
